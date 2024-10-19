@@ -1,53 +1,79 @@
 #!/usr/bin/env python
 import os
 import time
+import requests
 from blinkt import set_brightness, set_pixel, show, clear
- 
-# clear the LEDs
+
+# Clear the LEDs
 set_brightness(0.1)
 clear()
 show()
- 
-# dictionary data format is - "IP", "description", status where 0 = up and 1 = down
+
+# Discord Webhook URL
+WEBHOOK_URL = 'https://discord.com/api/webhooks/1296990218599268352/5imNfFUOMyrUABzIp1EGzmdnMwFMwIkc8_OXfDIX1GhqyKRZCTVlMcBO9DikGjR7nGpF'  # Replace with your actual webhook URL
+
+# Function to send a message to the Discord channel
+def send_discord_notification(message):
+    data = {"content": message}
+    requests.post(WEBHOOK_URL, json=data)
+
+# Dictionary format: "IP", "description", status where 0 = up and 1 = down
 pingdict = {
-	0:["grafanahost.local","Grafana",1],
-	1:["dns.local","DNS",1],
-	2:["nas.local","NAS",1],
-	3:["gaymer.local","Desktop",1],
-	4:["65.21.89.190","ESXi Host",1],
-	5:["135.181.217.230","NAS",1],
-	6:["pornhub.com","pornhub",1],
-	7:["google.com","google",1]
-			}
- 
+    0: ["192.168.18.3", "pve1", 1],
+    1: ["192.168.18.4", "pve2", 1],
+    2: ["192.168.18.5", "pve3", 1],
+    3: ["catspyjamas.xyz", "NAS", 1],
+    4: ["google.com", "google", 1],
+    5: ["192.168.18.1", "router", 1],
+    6: ["192.168.18.1", "router", 1],
+    7: ["192.168.18.1", "router", 1]
+}
+
+# Initialize a counter for down statuses
+down_counters = [0] * 8
+DOWN_THRESHOLD = 3  # Number of cycles a host must be down before notifying
+
 while True:
-	for x in range(8):
-		# change the colour slightly whilst we are testing an IP address
-		if pingdict[x][2]==0:
-			set_pixel(x, 0, 0, 10)
-		else:
-			set_pixel(x, 0, 0, 10)
- 		
- 		print("")
- 		print("Ping?")
-		
+    for x in range(8):
+        # Change color slightly while testing an IP address
+        set_pixel(x, 0, 0, 10)  # Dim color to indicate checking
+        show()
 
-		show()
-		# ping the IP address 
-		response = os.system("ping -c 1 -W 2 " + pingdict[x][0]+ " >nul")
-		if response == 0:
-			set_pixel(x, 0, 10, 0)
-			print 'pong!', pingdict[x][1], ' is up'
-			pingdict[x][2]=0
-		else:
-			set_pixel(x, 10, 0, 0)
-			print pingdict[x][1], ' is down'
-			pingdict[x][2]=1
-		show()
- 
-	  # pause for a few seconds then loop again
-	time.sleep(2)
+        # Ping the IP address
+        response = os.system(f"ping -c 1 -W 2 {pingdict[x][0]} > /dev/null 2>&1")
 
-	print("")
-	print("")
-	print("")
+        if response == 0:
+            set_pixel(x, 255, 20, 147)  # Pink for up
+            print(f"{pingdict[x][1]} is up")
+            pingdict[x][2] = 0
+            down_counters[x] = 0  # Reset counter if the host is up
+        else:
+            set_pixel(x, 255, 0, 0)  # Red for down
+            print(f"{pingdict[x][1]} is down")
+            pingdict[x][2] = 1
+            
+            # Increment the counter for down statuses
+            down_counters[x] += 1
+            
+            # Send a notification to Discord only if down for the threshold number of cycles
+            if down_counters[x] == DOWN_THRESHOLD:
+                send_discord_notification(f"{pingdict[x][1]} is down!")
+
+        show()
+
+    # Show pink for up statuses for 3 seconds
+    for x in range(8):
+        if pingdict[x][2] == 0:  # Only keep pink if up
+            set_pixel(x, 255, 20, 147)  # Pink for up
+        else:
+            set_pixel(x, 255, 0, 0)  # Red for down
+
+    show()
+    time.sleep(3)  # Keep the status visible for 3 seconds
+
+    # Clear the LEDs for 1 second
+    clear()
+    show()
+    time.sleep(1)  # Wait for 1 second before the next loop
+
+    print("\n" * 3)
