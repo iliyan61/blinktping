@@ -65,7 +65,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for host, status in ping_status.items() %}
+        {% for host, status in pingdict.items() %}
         <tr>
             <td>{{ host }}</td>
             <td class="{% if status == 'up' %}status-up{% else %}status-down{% endif %}">{{ status }}</td>
