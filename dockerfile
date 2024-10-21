@@ -1,5 +1,5 @@
 # Use a lightweight Python image with GPIO support (for Raspberry Pi)
-FROM arm32v6/python:3.9-alpine3.19⁠
+FROM arm32v6/python:3.9-slim
 
 # Set the working directory in the container
 WORKDIR /app
