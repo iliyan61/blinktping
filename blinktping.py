@@ -2,6 +2,8 @@
 import os
 import time
 import requests
+import signal
+import sys
 from flask import Flask, render_template
 from blinkt import set_brightness, set_pixel, show, clear
 
@@ -9,6 +11,22 @@ from blinkt import set_brightness, set_pixel, show, clear
 app = Flask(__name__)
 
 # Clear the LEDs
+set_brightness(0.1)
+clear()
+show()
+
+# Function to clear LEDs on shutdown
+def signal_handler(sig, frame):
+    print("Shutting down...")
+    clear()  # Clear the LEDs
+    show()
+    sys.exit(0)
+
+# Register the signal handler
+signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
+
+# Your existing setup code
 set_brightness(0.1)
 clear()
 show()
