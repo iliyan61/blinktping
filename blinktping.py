@@ -14,7 +14,7 @@ clear()
 show()
 
 # Discord Webhook URL
-WEBHOOK_URL = 'https://discord.com/api/webhooks/1296990218599268352/5imNfFUOMyrUABzIp1EGzmdnMwFMwIkc8_OXfDIX1GhqyKRZCTVlMcBO9DikGjR7nGpF'  # Replace with your actual webhook URL
+WEBHOOK_URL = os.getenv('DISCORD_WEBHOOK_URL')
 
 # Function to send a message to the Discord channel
 def send_discord_notification(message):

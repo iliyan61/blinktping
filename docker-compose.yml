@@ -1,0 +1,11 @@
+services:
+  blinktping:
+    container_name: blinktping
+    image: iliyan61/blinktping  # Your Docker image
+    privileged: true  # Run in privileged mode
+    devices:
+      - /dev/gpiomem  # Grant access to GPIO memory
+    ports:
+      - "5000:5000"  # Map port 5000 on the host to port 5000 on the container
+    environment:
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}  # Reference the webhook URL from environment variable
