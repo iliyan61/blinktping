@@ -19,9 +19,10 @@ show()
 def signal_handler(sig, frame):
     print("Shutting down...")
     clear()  # Clear the LEDs
-    show()
+    show()    # Update the display
+    time.sleep(0.1)  # Give a moment for the change to take effect
     sys.exit(0)
-
+    
 # Register the signal handler
 signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
