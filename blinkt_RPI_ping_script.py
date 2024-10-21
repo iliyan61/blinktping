@@ -23,10 +23,10 @@ pingdict = {
     1: ["192.168.18.4", "pve2", 1],
     2: ["192.168.18.5", "pve3", 1],
     3: ["catspyjamas.xyz", "NAS", 1],
-    4: ["google.com", "google", 1],
+    4: ["116.202.155.169", "bkup", 1],
     5: ["192.168.18.1", "router", 1],
     6: ["192.168.18.1", "router", 1],
-    7: ["192.168.18.1", "router", 1]
+    7: ["google.com", "google", 1]
 }
 
 # Initialize a counter for down statuses
