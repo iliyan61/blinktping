@@ -3,140 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blinkt Ping Monitor</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <title>Blinkt Ping Monitor</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Host Status</title>
     <style>
-        body {
-            background-color: #121212; /* Dark background */
-            color: #ffffff; /* White text */
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #ffffff; /* Header color */
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #444; /* Light border */
-        }
-
-        th {
-            background-color: #1e1e1e; /* Darker background for headers */
-        }
-
-        tr:hover {
-            background-color: #333; /* Highlight on hover */
-        }
-
-        .status-up {
-            color: #00ff00; /* Green for up status */
-        }
-
-        .status-down {
-            color: #ff0000; /* Red for down status */
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.9em;
-        }
-        body {
-            background-color: #121212; /* Dark background */
-            color: #ffffff; /* White text */
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #ffffff; /* Header color */
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #444; /* Light border */
-        }
-
-        th {
-            background-color: #1e1e1e; /* Darker background for headers */
-        }
-
-        tr:hover {
-            background-color: #333; /* Highlight on hover */
-        }
-
-        .status-up {
-            color: #00ff00; /* Green for up status */
-        }
-
-        .status-down {
-            color: #ff0000; /* Red for down status */
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.9em;
-        }
+        body { font-family: Arial, sans-serif; }
+        table { width: 50%; margin: 20px auto; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+        .up { background-color: #ff69b4; }  /* Pink */
+        .down { background-color: #ff0000; } /* Red */
     </style>
 </head>
 <body>
-
-<h1>Blinkt Ping Monitor</h1>
-<table>
-    <thead>
-
-<h1>Blinkt Ping Monitor</h1>
-<table>
-    <thead>
+    <h1 style="text-align:center;">Host Status</h1>
+    <table>
         <tr>
-            <th>Host</th>
-            <th>Host</th>
+            <th>Description</th>
+            <th>IP Address</th>
             <th>Status</th>
         </tr>
-    </thead>
-    <tbody>
-        {% for host, status in pingdict.items() %}
-        <tr>
-            <td>{{ host }}</td>
-            <td class="{% if status == 'up' %}status-up{% else %}status-down{% endif %}">{{ status }}</td>
+        {% for host in pingdict.values() %}
+        <tr class="{{ 'up' if host[2] == 0 else 'down' }}">
+            <td>{{ host[1] }}</td>
+            <td>{{ host[0] }}</td>
+            <td>{{ 'Up' if host[2] == 0 else 'Down' }}</td>
         </tr>
         {% endfor %}
-    </tbody>
-</table>
-
-<div class="footer">
-    <p>Monitor Status of Your Devices</p>
-</div>
-
-    </tbody>
-</table>
-
-<div class="footer">
-    <p>Monitor Status of Your Devices</p>
-</div>
-
+    </table>
 </body>
 </html>
