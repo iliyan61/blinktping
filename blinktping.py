@@ -56,6 +56,9 @@ pingdict = {
 down_counters = [0] * 8
 DOWN_THRESHOLD = 3  # Number of cycles a host must be down before notifying
 
+# Send startup notification
+send_discord_notification("The monitoring script has started.")
+
 @app.route('/')
 def index():
     # Render the status of the hosts
@@ -72,6 +75,8 @@ def update_host_status():
             response = os.system(f"ping -c 1 -W 2 {pingdict[x][0]} > /dev/null 2>&1")
 
             if response == 0:
+                if pingdict[x][2] == 1:  # Host was previously down
+                    send_discord_notification(f"{pingdict[x][1]} is back up!")
                 set_pixel(x, 255, 20, 147)  # Pink for up
                 print(f"{pingdict[x][1]} is up")
                 pingdict[x][2] = 0
