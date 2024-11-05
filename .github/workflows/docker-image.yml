@@ -31,3 +31,24 @@ jobs:
           platforms: linux/arm/v6
           push: true  # Set to true to push the image to Docker Hub
           tags: iliyan61/blinktping:latest
+
+
+      # Send Discord notification on success
+      - name: Send Discord notification on success
+        if: ${{ success() }}
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -H "Content-Type: application/json" \
+               -d '{"content": "**Build Success!** :white_check_mark:\nThe Docker image for `blinktping` has been built and pushed successfully."}' \
+               $DISCORD_WEBHOOK_URL
+
+      # Send Discord notification on failure
+      - name: Send Discord notification on failure
+        if: ${{ failure() }}
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -H "Content-Type: application/json" \
+               -d '{"content": "**Build Failed!** :x:\nThe Docker image build for `blinktping` has failed."}' \
+               $DISCORD_WEBHOOK_URL
