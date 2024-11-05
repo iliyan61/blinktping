@@ -4,6 +4,9 @@ FROM arm32v6/python:3.9-alpine
 # Set the working directory in the container
 WORKDIR /app
 
+# Install build dependencies
+RUN apk add --no-cache gcc musl-dev python3-dev
+
 # Copy the code from your repository to the container
 COPY . .
 
