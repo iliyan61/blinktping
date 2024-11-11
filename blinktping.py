@@ -42,9 +42,9 @@ def send_discord_notification(message):
 
 # Dictionary format: "IP", "description", status where 0 = up and 1 = down
 pingdict = {
-    0: ["192.168.18.3", "pve1", 1],
-    1: ["192.168.18.4", "pve2", 1],
-    2: ["192.168.18.5", "pve3", 1],
+    0: ["192.168.18.3", "1-opportunity", 1],
+    1: ["192.168.18.4", "2-spirit", 1],
+    2: ["192.168.18.5", "3-curiosity", 1],
     3: ["catspyjamas.xyz", "NAS", 1],
     4: ["116.202.155.169", "bkup", 1],
     5: ["192.168.18.1", "router", 1],
