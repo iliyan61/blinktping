@@ -95,7 +95,7 @@ def update_host_status():
 
             show()
 
-        # Show pink for up statuses for 3 seconds
+        # Show pink for up statuses for 14 seconds
         for x in range(8):
             if pingdict[x][2] == 0:  # Only keep pink if up
                 set_pixel(x, 255, 20, 147)  # Pink for up
@@ -103,7 +103,7 @@ def update_host_status():
                 set_pixel(x, 255, 0, 0)  # Red for down
 
         show()
-        time.sleep(3)  # Keep the status visible for 3 seconds
+        time.sleep(14)  # Keep the status visible for 14 seconds
 
         # Clear the LEDs for 1 second
         clear()
