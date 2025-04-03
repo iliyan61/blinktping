@@ -68,7 +68,7 @@ def update_host_status():
     while True:
         for x in range(8):
             # Change color slightly while testing an IP address
-            set_pixel(x, 0, 0, 100)  # Light LED to indicate checking
+            set_pixel(x, 0, 0, 25)  # Light LED to indicate checking
             show()
 
             # Ping the IP address
@@ -77,12 +77,12 @@ def update_host_status():
             if response == 0:
                 if pingdict[x][2] == 1:  # Host was previously down
                     send_discord_notification(f"{pingdict[x][1]} is back up!")
-                set_pixel(x, 0, 100, 0)  # Green for up
+                set_pixel(x, 0, 25, 0)  # Green for up
                 print(f"{pingdict[x][1]} is up")
                 pingdict[x][2] = 0
                 down_counters[x] = 0  # Reset counter if the host is up
             else:
-                set_pixel(x, 100, 0, 0)  # Red for down
+                set_pixel(x, 25, 0, 0)  # Red for down
                 print(f"{pingdict[x][1]} is down")
                 pingdict[x][2] = 1
 
@@ -98,9 +98,9 @@ def update_host_status():
         # Show pink for up statuses for 14 seconds
         for x in range(8):
             if pingdict[x][2] == 0:  # Only keep pink if up
-                set_pixel(x, 0, 100, 0)  # Green for up
+                set_pixel(x, 0, 25, 0)  # Green for up
             else:
-                set_pixel(x, 100, 0, 0)  # Red for down
+                set_pixel(x, 25, 0, 0)  # Red for down
 
         show()
         time.sleep(14)  # Keep the status visible for 14 seconds
